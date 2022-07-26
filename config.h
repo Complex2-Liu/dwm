@@ -60,6 +60,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+#include <X11/XF86keysym.h>
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ Mod1Mask,                     XK_space,  spawn,          {.v = dmenucmd } },
@@ -96,6 +98,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+
+    { 0, XK_VoidSymbol,           spawn, SHCMD("fcitx5-remote -t") },
+    { 0, XF86XK_AudioMute,        spawn, SHCMD("pamixer -t") },
+    { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pamixer --allow-boost -i 5") },
+    { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("pamixer --allow-boost -d 5") },
+    { 0, XF86XK_AudioPrev,        spawn, SHCMD("mpc prev") },
+    { 0, XF86XK_AudioNext,        spawn, SHCMD("mpc next") },
 };
 
 /* button definitions */
