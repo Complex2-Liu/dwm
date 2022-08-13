@@ -55,7 +55,6 @@ static const Layout layouts[] = {
 	{ "平铺",      tile },    /* first entry is default */
 	{ "悬浮",      NULL },    /* no layout function means floating behavior */
 	{ "单片",      monocle },
-    { NULL,        NULL },
 };
 
 /* key definitions */
@@ -121,6 +120,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
+    { MODKEY,                       XK_n,      layoutscroll,   {.i = 1 } },
+    { MODKEY,                       XK_p,      layoutscroll,   {.i = -1 } },
 
     /* gaps */
     { MODKEY,                       XK_equal,  defaultgaps,    {0} },
