@@ -86,6 +86,7 @@ ResourcePref resources[] = {
 };
 
 #include <X11/XF86keysym.h>
+#include "shift-tools.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -93,6 +94,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+
+    /* shift-tools */
+    { MODKEY,                       XK_semicolon,  shiftview,   {.i = -1 } },
+    { MODKEY|ShiftMask,             XK_semicolon,  shifttag,    {.i = -1 } },
+    { MODKEY,                       XK_apostrophe, shiftview,   {.i = 1 } },
+    { MODKEY|ShiftMask,             XK_apostrophe, shifttag,    {.i = 1 } },
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
