@@ -5,6 +5,12 @@ static unsigned int borderpx  = 3;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
+static unsigned int gappih    = 10;       /* horiz inner gap between windows */
+static unsigned int gappiv    = 10;       /* vert inner gap between windows */
+static unsigned int gappoh    = 20;       /* horiz outer gap between windows and screen edge */
+static unsigned int gappov    = 20;       /* vert outer gap between windows and screen edge */
+static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+
 static const char *fonts[]    = { "monospace:size=14",
                                   "Ping Fang SC:size=14:antialias=true:autohint=true",
                                   "Apple Color Emoji:size=14:antialias=true:autohint=true",
@@ -42,11 +48,14 @@ static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
+#include "vanitygaps.c"
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "平铺",      tile },    /* first entry is default */
 	{ "悬浮",      NULL },    /* no layout function means floating behavior */
 	{ "单片",      monocle },
+    { NULL,        NULL },
 };
 
 /* key definitions */
@@ -83,6 +92,10 @@ ResourcePref resources[] = {
     { "nmaster",         INTEGER, &nmaster },
     { "resizehints",     INTEGER, &resizehints },
     { "mfact",           FLOAT,   &mfact },
+    { "gappih",          INTEGER, &gappih },
+    { "gappiv",          INTEGER, &gappiv },
+    { "gappoh",          INTEGER, &gappoh },
+    { "gappov",          INTEGER, &gappov },
 };
 
 #include <X11/XF86keysym.h>
@@ -109,16 +122,24 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 
+    /* gaps */
+    { MODKEY,                       XK_equal,  defaultgaps,    {0} },
+    { MODKEY|ShiftMask,             XK_equal,  incrigaps,      {.i = +1 } },
+    { MODKEY,                       XK_minus,  incrigaps,      {.i = -1 } },
+
+    /* client weight */
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.025} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.025} },
+    { MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = -0.125} },
+    { MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = +0.125} },
+    { MODKEY|ShiftMask,             XK_0,      setcfact,       {.f =  0.00} },
+
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
