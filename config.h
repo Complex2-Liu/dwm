@@ -11,11 +11,11 @@ static unsigned int gappoh    = 20;       /* horiz outer gap between windows and
 static unsigned int gappov    = 20;       /* vert outer gap between windows and screen edge */
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 
-static const char *fonts[]    = { "monospace:size=14",
-                                  "Ping Fang SC:size=14:antialias=true:autohint=true",
-                                  "Apple Color Emoji:size=14:antialias=true:autohint=true",
+static const char *fonts[]    = { "monospace:size=16",
+                                  "Ping Fang SC:size=16:antialias=true:autohint=true",
+                                  "Apple Color Emoji:size=16:antialias=true:autohint=true",
                                 };
-static char dmenufont[]       = "monospace:size=14";
+static char dmenufont[]       = "monospace:size=16";
 static char normbgcolor[]     = "#222222";
 static char normbordercolor[] = "#444444";
 static char normfgcolor[]     = "#bbbbbb";
